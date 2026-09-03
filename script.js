@@ -203,30 +203,68 @@ function displaySavedInvoices() {
     }
 
     invoices.forEach(function (invoice) {
+
         const card = document.createElement("div");
 
         card.className = "saved-card";
 
+        let itemsList = "";
+
+        invoice.items.forEach(function (item) {
+            itemsList +=
+                "<div>" +
+                "<strong>" + item.name + "</strong>" +
+                " — " +
+                item.size +
+                " — " +
+                item.type +
+                " — Qty: " +
+                item.qty +
+                " — Ksh " +
+                item.total.toFixed(2) +
+                "</div>";
+        });
+
         card.innerHTML =
             "<h3>Invoice #" + invoice.id + "</h3>" +
+
             "<p><strong>Customer:</strong> " +
             invoice.customerName +
             "</p>" +
+
             "<p><strong>Phone:</strong> " +
             invoice.customerPhone +
             "</p>" +
+
             "<p><strong>Date:</strong> " +
             invoice.date +
             "</p>" +
+
             "<p><strong>Payment:</strong> " +
             invoice.paymentMethod +
             "</p>" +
+
+            "<div class='saved-items'>" +
+            "<strong>Items:</strong>" +
+            itemsList +
+            "</div>" +
+
+            "<p><strong>Subtotal:</strong> Ksh " +
+            invoice.subtotal.toFixed(2) +
+            "</p>" +
+
+            "<p><strong>Discount:</strong> Ksh " +
+            invoice.discount.toFixed(2) +
+            "</p>" +
+
             "<p><strong>Total:</strong> Ksh " +
             invoice.total.toFixed(2) +
             "</p>" +
+
             "<button type='button' onclick='printSavedInvoice(" +
             invoice.id +
             ")'>Print</button> " +
+
             "<button type='button' onclick='deleteInvoice(" +
             invoice.id +
             ")'>Delete</button>";
