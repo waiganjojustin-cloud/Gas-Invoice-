@@ -11,31 +11,58 @@
 <body>
 
     <header>
-        <div>
-            <h1>🔥 GasFlow Manager</h1>
-            <p>Gas Cylinders • Refilling • Regulators • Burners • Accessories</p>
-        </div>
+        <h1>🔥 GasFlow Manager</h1>
+        <p>Gas Cylinders • Refilling • Sales • Purchases • Accessories</p>
     </header>
 
     <main>
+
+        <section class="dashboard">
+
+            <div class="stat-card refill-card">
+                <span>🔄</span>
+                <div>
+                    <p>Refills</p>
+                    <h2 id="refillCount">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card sale-card">
+                <span>🛒</span>
+                <div>
+                    <p>Sales</p>
+                    <h2 id="saleCount">0</h2>
+                </div>
+            </div>
+
+            <div class="stat-card purchase-card">
+                <span>📦</span>
+                <div>
+                    <p>Purchases</p>
+                    <h2 id="purchaseCount">0</h2>
+                </div>
+            </div>
+
+        </section>
+
 
         <section class="card">
 
             <div class="section-heading">
                 <div>
-                    <h2>Customer Details</h2>
-                    <p>Enter the customer's information.</p>
+                    <h2>Customer / Supplier Details</h2>
+                    <p>Enter the person or business involved in the transaction.</p>
                 </div>
             </div>
 
             <div class="customer-grid">
 
                 <div class="form-group">
-                    <label for="customerName">Customer Name</label>
+                    <label for="customerName">Name</label>
                     <input
                         type="text"
                         id="customerName"
-                        placeholder="Enter customer name"
+                        placeholder="Enter name"
                     >
                 </div>
 
@@ -54,8 +81,8 @@
 
             <div class="section-heading">
                 <div>
-                    <h2>Invoice Items</h2>
-                    <p>Add gas products or services to the invoice.</p>
+                    <h2>Transaction Details</h2>
+                    <p>Add the gas product or accessory.</p>
                 </div>
             </div>
 
@@ -90,9 +117,9 @@
 
                 <select id="transactionType">
                     <option value="">Transaction Type</option>
-                    <option value="Sale">Sale</option>
                     <option value="Refill">Refill</option>
-                    <option value="Exchange">Cylinder Exchange</option>
+                    <option value="Sale">Sale</option>
+                    <option value="Purchase">Purchase</option>
                 </select>
 
                 <input
@@ -114,6 +141,7 @@
                 </button>
 
             </div>
+
 
             <div class="table-container">
 
@@ -138,6 +166,7 @@
 
             </div>
 
+
             <div class="invoice-calculation">
 
                 <div class="calculation-row">
@@ -146,7 +175,9 @@
                 </div>
 
                 <div class="discount-row">
+
                     <label for="discount">Discount</label>
+
                     <input
                         type="number"
                         id="discount"
@@ -154,6 +185,7 @@
                         min="0"
                         placeholder="0"
                     >
+
                 </div>
 
                 <div class="calculation-row grand-total">
@@ -163,25 +195,46 @@
 
             </div>
 
+
             <div class="payment-section">
 
                 <label for="paymentMethod">Payment Method</label>
 
                 <select id="paymentMethod">
-                    <option value="">Select Payment Method</option>
-                    <option value="Cash">Cash</option>
-                    <option value="M-Pesa">M-Pesa</option>
-                    <option value="Card">Card</option>
-                    <option value="Bank">Bank</option>
-                    <option value="Other">Other</option>
+
+                    <option value="">
+                        Select Payment Method
+                    </option>
+
+                    <option value="Cash">
+                        Cash
+                    </option>
+
+                    <option value="M-Pesa">
+                        M-Pesa
+                    </option>
+
+                    <option value="Card">
+                        Card
+                    </option>
+
+                    <option value="Bank">
+                        Bank
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
                 </select>
 
             </div>
 
+
             <div class="buttons">
 
                 <button id="saveInvoice" type="button">
-                    💾 Save Invoice
+                    💾 Save Transaction
                 </button>
 
                 <button id="printInvoice" type="button">
@@ -198,8 +251,75 @@
             <div class="section-heading">
 
                 <div>
+                    <h2>Transaction History</h2>
+                    <p>Search transactions according to a specific date.</p>
+                </div>
+
+            </div>
+
+
+            <div class="date-search">
+
+                <div>
+                    <label for="historyDate">
+                        Select Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="historyDate"
+                    >
+                </div>
+
+                <button
+                    id="searchDate"
+                    type="button"
+                >
+                    🔎 Search Date
+                </button>
+
+                <button
+                    id="showAll"
+                    type="button"
+                >
+                    📋 Show All
+                </button>
+
+            </div>
+
+
+            <div class="history-summary">
+
+                <div>
+                    <span>🔄 Refills</span>
+                    <strong id="historyRefillCount">0</strong>
+                </div>
+
+                <div>
+                    <span>🛒 Sales</span>
+                    <strong id="historySaleCount">0</strong>
+                </div>
+
+                <div>
+                    <span>📦 Purchases</span>
+                    <strong id="historyPurchaseCount">0</strong>
+                </div>
+
+            </div>
+
+
+            <div id="transactionHistory"></div>
+
+        </section>
+
+
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
                     <h2>Saved Invoices</h2>
-                    <p>View and manage previous customer invoices.</p>
+                    <p>View and manage previous invoices.</p>
                 </div>
 
             </div>
@@ -213,7 +333,7 @@
 
     <footer>
         <p>🔥 GasFlow Manager</p>
-        <span>Gas Sales • Refilling • Accessories</span>
+        <span>Gas Sales • Refilling • Purchases • Accessories</span>
     </footer>
 
 

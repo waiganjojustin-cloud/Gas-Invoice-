@@ -19,7 +19,7 @@ body {
 
 header {
     max-width: 1050px;
-    margin: 0 auto 30px;
+    margin: 0 auto 25px;
     padding: 30px 20px;
     text-align: center;
     background: rgba(255, 255, 255, 0.28);
@@ -36,12 +36,10 @@ header h1 {
     margin-bottom: 8px;
     color: #172554;
     font-size: 2.3rem;
-    letter-spacing: -0.5px;
 }
 
 header p {
     color: #475569;
-    font-size: 1rem;
 }
 
 main {
@@ -49,32 +47,63 @@ main {
     margin: auto;
 }
 
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transition: 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-card > span {
+    font-size: 2rem;
+}
+
+.stat-card p {
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.stat-card h2 {
+    color: #172554;
+    font-size: 1.8rem;
+}
+
 .card {
-    position: relative;
     margin-bottom: 25px;
     padding: 28px;
-    background: rgba(255, 255, 255, 0.32);
     border: 1px solid rgba(255, 255, 255, 0.65);
     border-radius: 24px;
+    background: rgba(255, 255, 255, 0.32);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow:
         0 20px 50px rgba(15, 23, 42, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.75);
-    transition: 0.25s ease;
-}
-
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow:
-        0 25px 60px rgba(15, 23, 42, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .section-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 20px;
 }
 
@@ -131,17 +160,6 @@ select {
     background: rgba(255, 255, 255, 0.45);
     color: #1e293b;
     font-size: 0.95rem;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: 0.25s ease;
-}
-
-input::placeholder {
-    color: #64748b;
-}
-
-select {
-    cursor: pointer;
 }
 
 select option {
@@ -151,11 +169,9 @@ select option {
 
 input:focus,
 select:focus {
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.8);
     border-color: rgba(37, 99, 235, 0.7);
-    box-shadow:
-        0 0 0 4px rgba(37, 99, 235, 0.12),
-        0 8px 20px rgba(37, 99, 235, 0.08);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
 hr {
@@ -174,29 +190,18 @@ hr {
 
 button {
     padding: 11px 18px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: none;
     border-radius: 11px;
     background: linear-gradient(135deg, #2563eb, #4f46e5);
     color: white;
     font-size: 0.9rem;
     font-weight: bold;
     cursor: pointer;
-    box-shadow:
-        0 8px 20px rgba(37, 99, 235, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
     transition: 0.25s ease;
 }
 
 button:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, #1d4ed8, #4338ca);
-    box-shadow:
-        0 12px 25px rgba(37, 99, 235, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-button:active {
-    transform: translateY(0);
 }
 
 .table-container {
@@ -211,11 +216,8 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
 }
 
 th,
@@ -228,8 +230,6 @@ th {
     background: rgba(23, 37, 84, 0.88);
     color: white;
     font-size: 0.82rem;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
 }
 
 td {
@@ -238,22 +238,10 @@ td {
     color: #334155;
 }
 
-tbody tr:last-child td {
-    border-bottom: none;
-}
-
-tbody tr:hover td {
-    background: rgba(255, 255, 255, 0.45);
-}
-
 tbody button {
     padding: 7px 12px;
     background: linear-gradient(135deg, #ef4444, #dc2626);
     font-size: 0.78rem;
-}
-
-tbody button:hover {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
 }
 
 .invoice-calculation {
@@ -264,23 +252,12 @@ tbody button:hover {
     border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow:
-        0 10px 25px rgba(15, 23, 42, 0.07),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .calculation-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 10px 0;
-    color: #475569;
-}
-
-.calculation-row strong {
-    color: #1e293b;
 }
 
 .discount-row {
@@ -291,14 +268,8 @@ tbody button:hover {
     padding: 10px 0;
 }
 
-.discount-row label {
-    margin: 0;
-}
-
 .discount-row input {
     width: 150px;
-    padding: 9px 12px;
-    text-align: right;
 }
 
 .grand-total {
@@ -306,10 +277,6 @@ tbody button:hover {
     padding-top: 15px;
     border-top: 1px solid rgba(148, 163, 184, 0.3);
     font-size: 1.2rem;
-}
-
-.grand-total span {
-    color: #1d4ed8;
 }
 
 .grand-total strong {
@@ -320,14 +287,6 @@ tbody button:hover {
     width: 350px;
     max-width: 100%;
     margin: 20px 0 0 auto;
-}
-
-.payment-section label {
-    margin-bottom: 7px;
-}
-
-.payment-section select {
-    width: 100%;
 }
 
 .buttons {
@@ -341,81 +300,133 @@ tbody button:hover {
     background: linear-gradient(135deg, #16a34a, #059669);
 }
 
-#saveInvoice:hover {
-    background: linear-gradient(135deg, #15803d, #047857);
-    box-shadow:
-        0 12px 25px rgba(22, 163, 74, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
 #printInvoice {
     background: linear-gradient(135deg, #1e293b, #0f172a);
 }
 
-#printInvoice:hover {
-    background: linear-gradient(135deg, #0f172a, #020617);
+.date-search {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: end;
+}
+
+.date-search input {
+    background: rgba(255, 255, 255, 0.65);
+}
+
+.date-search button {
+    height: 44px;
+}
+
+#showAll {
+    background: linear-gradient(135deg, #475569, #334155);
+}
+
+.history-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.history-summary div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 18px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+.history-summary span {
+    color: #475569;
+    font-weight: bold;
+}
+
+.history-summary strong {
+    color: #172554;
+    font-size: 1.2rem;
+}
+
+.history-card {
+    margin-bottom: 12px;
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+.history-card h3 {
+    margin-bottom: 10px;
+    color: #1d4ed8;
+}
+
+.history-card p {
+    margin-bottom: 6px;
+    color: #475569;
+}
+
+.history-items {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.history-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.history-item:last-child {
+    border-bottom: none;
 }
 
 .saved-card {
     margin-bottom: 12px;
     padding: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow:
-        0 10px 25px rgba(15, 23, 42, 0.07),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transition: 0.25s ease;
-}
-
-.saved-card:hover {
-    transform: translateX(4px);
-    box-shadow:
-        0 15px 30px rgba(15, 23, 42, 0.11),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.55);
 }
 
 .saved-card h3 {
     margin-bottom: 12px;
     color: #1d4ed8;
-    font-size: 1rem;
 }
 
 .saved-card p {
     margin-bottom: 6px;
     color: #475569;
-    font-size: 0.9rem;
 }
 
-.saved-card strong {
-    color: #1e293b;
+.saved-items {
+    margin: 12px 0;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.saved-items div {
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .saved-card button {
     margin-top: 8px;
-    margin-right: 5px;
-    padding: 8px 13px;
-    font-size: 0.8rem;
 }
 
 .saved-card button:first-of-type {
     background: linear-gradient(135deg, #0f766e, #0d9488);
 }
 
-.saved-card button:first-of-type:hover {
-    background: linear-gradient(135deg, #115e59, #0f766e);
-}
-
 .saved-card button:last-of-type {
     background: linear-gradient(135deg, #ef4444, #dc2626);
 }
 
-.saved-card button:last-of-type:hover {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-}
-
+#transactionHistory > p,
 #savedInvoices > p {
     padding: 30px;
     border: 1px dashed rgba(100, 116, 139, 0.4);
@@ -423,8 +434,6 @@ tbody button:hover {
     background: rgba(255, 255, 255, 0.25);
     color: #64748b;
     text-align: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 
 footer {
@@ -446,6 +455,7 @@ footer span {
 }
 
 @media (max-width: 1000px) {
+
     .item-inputs {
         grid-template-columns: 1fr 1fr 1fr;
     }
@@ -456,28 +466,25 @@ footer span {
 }
 
 @media (max-width: 768px) {
+
     body {
         padding: 15px;
-    }
-
-    header {
-        padding: 25px 15px;
-        margin-bottom: 20px;
-        border-radius: 20px;
     }
 
     header h1 {
         font-size: 1.7rem;
     }
 
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
     .card {
         padding: 20px;
-        border-radius: 20px;
     }
 
     .customer-grid {
         grid-template-columns: 1fr;
-        gap: 0;
     }
 
     .item-inputs {
@@ -486,7 +493,6 @@ footer span {
 
     .item-inputs button {
         grid-column: 1 / -1;
-        width: 100%;
     }
 
     .invoice-calculation,
@@ -501,16 +507,28 @@ footer span {
     .buttons button {
         width: 100%;
     }
+
+    .date-search {
+        grid-template-columns: 1fr;
+    }
+
+    .date-search button {
+        width: 100%;
+    }
+
+    .history-summary {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
+
     body {
         padding: 10px;
     }
 
     header {
         padding: 22px 12px;
-        border-radius: 18px;
     }
 
     header h1 {
@@ -524,15 +542,6 @@ footer span {
 
     .card {
         padding: 16px;
-        border-radius: 18px;
-    }
-
-    .section-heading h2 {
-        font-size: 1.15rem;
-    }
-
-    .section-heading p {
-        font-size: 0.82rem;
     }
 
     .item-inputs {
@@ -544,27 +553,15 @@ footer span {
     }
 
     .discount-row {
-        align-items: flex-start;
         flex-direction: column;
-        gap: 7px;
+        align-items: flex-start;
     }
 
     .discount-row input {
         width: 100%;
-        text-align: left;
-    }
-
-    .saved-card {
-        padding: 15px;
     }
 
     .saved-card button {
         width: 100%;
-        margin-right: 0;
-        margin-top: 7px;
-    }
-
-    footer {
-        padding: 15px 5px;
     }
 }

@@ -22,9 +22,31 @@ const printInvoiceButton = document.getElementById("printInvoice");
 
 const savedInvoices = document.getElementById("savedInvoices");
 
+const refillCount = document.getElementById("refillCount");
+const saleCount = document.getElementById("saleCount");
+const purchaseCount = document.getElementById("purchaseCount");
+
+const historyDate = document.getElementById("historyDate");
+const searchDateButton = document.getElementById("searchDate");
+const showAllButton = document.getElementById("showAll");
+
+const transactionHistory =
+    document.getElementById("transactionHistory");
+
+const historyRefillCount =
+    document.getElementById("historyRefillCount");
+
+const historySaleCount =
+    document.getElementById("historySaleCount");
+
+const historyPurchaseCount =
+    document.getElementById("historyPurchaseCount");
+
 let items = [];
 
+
 addItemButton.addEventListener("click", function () {
+
     const category = itemCategory.value;
     const name = itemName.value.trim();
     const size = cylinderSize.value;
@@ -62,8 +84,6 @@ addItemButton.addEventListener("click", function () {
         return;
     }
 
-    const total = qty * price;
-
     items.push({
         category: category,
         name: name,
@@ -71,7 +91,7 @@ addItemButton.addEventListener("click", function () {
         type: type,
         qty: qty,
         price: price,
-        total: total
+        total: qty * price
     });
 
     displayItems();
@@ -86,12 +106,15 @@ addItemButton.addEventListener("click", function () {
     itemName.focus();
 });
 
+
 function displayItems() {
+
     invoiceItems.innerHTML = "";
 
     let subtotal = 0;
 
     items.forEach(function (item, index) {
+
         subtotal += item.total;
 
         const row = document.createElement("tr");
@@ -112,28 +135,40 @@ function displayItems() {
     });
 
     const discount = Number(discountInput.value) || 0;
-    const total = Math.max(0, subtotal - discount);
 
-    subtotalDisplay.textContent = subtotal.toFixed(2);
-    grandTotal.textContent = total.toFixed(2);
+    const total =
+        Math.max(0, subtotal - discount);
+
+    subtotalDisplay.textContent =
+        subtotal.toFixed(2);
+
+    grandTotal.textContent =
+        total.toFixed(2);
 }
 
+
 function removeItem(index) {
+
     items.splice(index, 1);
+
     displayItems();
 }
 
+
 discountInput.addEventListener("input", function () {
+
     displayItems();
 });
 
+
 saveInvoiceButton.addEventListener("click", function () {
+
     const name = customerName.value.trim();
     const phone = customerPhone.value.trim();
     const payment = paymentMethod.value;
 
     if (name === "") {
-        alert("Please enter the customer name.");
+        alert("Please enter the name.");
         return;
     }
 
@@ -158,23 +193,40 @@ saveInvoiceButton.addEventListener("click", function () {
         subtotal += item.total;
     });
 
-    const discount = Number(discountInput.value) || 0;
-    const total = Math.max(0, subtotal - discount);
+    const discount =
+        Number(discountInput.value) || 0;
+
+    const total =
+        Math.max(0, subtotal - discount);
 
     const invoice = {
+
         id: Date.now(),
+
         customerName: name,
+
         customerPhone: phone,
+
         items: items,
+
         subtotal: subtotal,
+
         discount: discount,
+
         total: total,
+
         paymentMethod: payment,
-        date: new Date().toLocaleString()
+
+        date: new Date().toLocaleString(),
+
+        dateKey: getDateKey(new Date())
+
     };
 
     const invoices =
-        JSON.parse(localStorage.getItem("invoices")) || [];
+        JSON.parse(
+            localStorage.getItem("invoices")
+        ) || [];
 
     invoices.push(invoice);
 
@@ -183,111 +235,372 @@ saveInvoiceButton.addEventListener("click", function () {
         JSON.stringify(invoices)
     );
 
-    alert("Invoice saved successfully!");
+    alert("Transaction saved successfully!");
 
     displaySavedInvoices();
+
+    updateDashboard();
+
+    displayHistory();
 
     clearInvoice();
 });
 
-function displaySavedInvoices() {
+
+function getDateKey(date) {
+
+    const year = date.getFullYear();
+
+    const month =
+        String(date.getMonth() + 1).padStart(2, "0");
+
+    const day =
+        String(date.getDate()).padStart(2, "0");
+
+    return year + "-" + month + "-" + day;
+}
+
+
+function updateDashboard() {
+
     const invoices =
-        JSON.parse(localStorage.getItem("invoices")) || [];
+        JSON.parse(
+            localStorage.getItem("invoices")
+        ) || [];
+
+    let refills = 0;
+    let sales = 0;
+    let purchases = 0;
+
+    invoices.forEach(function (invoice) {
+
+        invoice.items.forEach(function (item) {
+
+            if (item.type === "Refill") {
+                refills += Number(item.qty) || 0;
+            }
+
+            if (item.type === "Sale") {
+                sales += Number(item.qty) || 0;
+            }
+
+            if (item.type === "Purchase") {
+                purchases += Number(item.qty) || 0;
+            }
+
+        });
+
+    });
+
+    refillCount.textContent = refills;
+    saleCount.textContent = sales;
+    purchaseCount.textContent = purchases;
+}
+
+
+function displayHistory(selectedDate = "") {
+
+    const invoices =
+        JSON.parse(
+            localStorage.getItem("invoices")
+        ) || [];
+
+    let filteredInvoices = invoices;
+
+    if (selectedDate !== "") {
+
+        filteredInvoices =
+            invoices.filter(function (invoice) {
+
+                return invoice.dateKey === selectedDate;
+
+            });
+
+    }
+
+    transactionHistory.innerHTML = "";
+
+    let refills = 0;
+    let sales = 0;
+    let purchases = 0;
+
+    filteredInvoices.forEach(function (invoice) {
+
+        invoice.items.forEach(function (item) {
+
+            if (item.type === "Refill") {
+                refills += Number(item.qty) || 0;
+            }
+
+            if (item.type === "Sale") {
+                sales += Number(item.qty) || 0;
+            }
+
+            if (item.type === "Purchase") {
+                purchases += Number(item.qty) || 0;
+            }
+
+        });
+
+    });
+
+    historyRefillCount.textContent = refills;
+    historySaleCount.textContent = sales;
+    historyPurchaseCount.textContent = purchases;
+
+    if (filteredInvoices.length === 0) {
+
+        transactionHistory.innerHTML =
+            "<p>No transactions found for this date.</p>";
+
+        return;
+    }
+
+    filteredInvoices
+        .slice()
+        .reverse()
+        .forEach(function (invoice) {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "history-card";
+
+            let itemsHTML = "";
+
+            invoice.items.forEach(function (item) {
+
+                itemsHTML +=
+                    "<div class='history-item'>" +
+
+                    "<strong>" +
+                    item.name +
+                    "</strong>" +
+
+                    " — " +
+                    item.size +
+
+                    " — " +
+                    item.type +
+
+                    " — Qty: " +
+                    item.qty +
+
+                    " — Ksh " +
+                    item.total.toFixed(2) +
+
+                    "</div>";
+
+            });
+
+            card.innerHTML =
+
+                "<h3>Transaction #" +
+                invoice.id +
+                "</h3>" +
+
+                "<p><strong>Date:</strong> " +
+                invoice.date +
+                "</p>" +
+
+                "<p><strong>Customer / Supplier:</strong> " +
+                invoice.customerName +
+                "</p>" +
+
+                "<p><strong>Phone:</strong> " +
+                invoice.customerPhone +
+                "</p>" +
+
+                "<p><strong>Payment:</strong> " +
+                invoice.paymentMethod +
+                "</p>" +
+
+                "<div class='history-items'>" +
+                itemsHTML +
+                "</div>" +
+
+                "<p><strong>Total:</strong> Ksh " +
+                invoice.total.toFixed(2) +
+                "</p>";
+
+            transactionHistory.appendChild(card);
+
+        });
+}
+
+
+searchDateButton.addEventListener(
+    "click",
+    function () {
+
+        const date = historyDate.value;
+
+        if (date === "") {
+
+            alert("Please select a date.");
+
+            return;
+        }
+
+        displayHistory(date);
+    }
+);
+
+
+showAllButton.addEventListener(
+    "click",
+    function () {
+
+        historyDate.value = "";
+
+        displayHistory();
+
+    }
+);
+
+
+function displaySavedInvoices() {
+
+    const invoices =
+        JSON.parse(
+            localStorage.getItem("invoices")
+        ) || [];
 
     savedInvoices.innerHTML = "";
 
     if (invoices.length === 0) {
+
         savedInvoices.innerHTML =
             "<p>No saved invoices yet.</p>";
+
         return;
     }
 
-    invoices.forEach(function (invoice) {
+    invoices
+        .slice()
+        .reverse()
+        .forEach(function (invoice) {
 
-        const card = document.createElement("div");
+            const card =
+                document.createElement("div");
 
-        card.className = "saved-card";
+            card.className = "saved-card";
 
-        let itemsList = "";
+            let itemsList = "";
 
-        invoice.items.forEach(function (item) {
-            itemsList +=
-                "<div>" +
-                "<strong>" + item.name + "</strong>" +
-                " — " +
-                item.size +
-                " — " +
-                item.type +
-                " — Qty: " +
-                item.qty +
-                " — Ksh " +
-                item.total.toFixed(2) +
-                "</div>";
+            invoice.items.forEach(function (item) {
+
+                itemsList +=
+
+                    "<div>" +
+
+                    "<strong>" +
+                    item.name +
+                    "</strong>" +
+
+                    " — " +
+                    item.size +
+
+                    " — " +
+                    item.type +
+
+                    " — Qty: " +
+                    item.qty +
+
+                    " — Ksh " +
+                    item.total.toFixed(2) +
+
+                    "</div>";
+
+            });
+
+            const subtotal =
+                Number(invoice.subtotal) || 0;
+
+            const discount =
+                Number(invoice.discount) || 0;
+
+            const total =
+                Number(invoice.total) || 0;
+
+            card.innerHTML =
+
+                "<h3>Invoice #" +
+                invoice.id +
+                "</h3>" +
+
+                "<p><strong>Customer:</strong> " +
+                invoice.customerName +
+                "</p>" +
+
+                "<p><strong>Phone:</strong> " +
+                invoice.customerPhone +
+                "</p>" +
+
+                "<p><strong>Date:</strong> " +
+                invoice.date +
+                "</p>" +
+
+                "<p><strong>Payment:</strong> " +
+                invoice.paymentMethod +
+                "</p>" +
+
+                "<div class='saved-items'>" +
+
+                "<strong>Items:</strong>" +
+
+                itemsList +
+
+                "</div>" +
+
+                "<p><strong>Subtotal:</strong> Ksh " +
+                subtotal.toFixed(2) +
+                "</p>" +
+
+                "<p><strong>Discount:</strong> Ksh " +
+                discount.toFixed(2) +
+                "</p>" +
+
+                "<p><strong>Total:</strong> Ksh " +
+                total.toFixed(2) +
+                "</p>" +
+
+                "<button type='button' onclick='printSavedInvoice(" +
+                invoice.id +
+                ")'>Print</button> " +
+
+                "<button type='button' onclick='deleteInvoice(" +
+                invoice.id +
+                ")'>Delete</button>";
+
+            savedInvoices.appendChild(card);
+
         });
-
-        card.innerHTML =
-            "<h3>Invoice #" + invoice.id + "</h3>" +
-
-            "<p><strong>Customer:</strong> " +
-            invoice.customerName +
-            "</p>" +
-
-            "<p><strong>Phone:</strong> " +
-            invoice.customerPhone +
-            "</p>" +
-
-            "<p><strong>Date:</strong> " +
-            invoice.date +
-            "</p>" +
-
-            "<p><strong>Payment:</strong> " +
-            invoice.paymentMethod +
-            "</p>" +
-
-            "<div class='saved-items'>" +
-            "<strong>Items:</strong>" +
-            itemsList +
-            "</div>" +
-
-            "<p><strong>Subtotal:</strong> Ksh " +
-            invoice.subtotal.toFixed(2) +
-            "</p>" +
-
-            "<p><strong>Discount:</strong> Ksh " +
-            invoice.discount.toFixed(2) +
-            "</p>" +
-
-            "<p><strong>Total:</strong> Ksh " +
-            invoice.total.toFixed(2) +
-            "</p>" +
-
-            "<button type='button' onclick='printSavedInvoice(" +
-            invoice.id +
-            ")'>Print</button> " +
-
-            "<button type='button' onclick='deleteInvoice(" +
-            invoice.id +
-            ")'>Delete</button>";
-
-        savedInvoices.appendChild(card);
-    });
 }
 
+
 function deleteInvoice(id) {
-    const answer = confirm(
-        "Are you sure you want to delete this invoice?"
-    );
+
+    const answer =
+        confirm(
+            "Are you sure you want to delete this transaction?"
+        );
 
     if (!answer) {
         return;
     }
 
     let invoices =
-        JSON.parse(localStorage.getItem("invoices")) || [];
+        JSON.parse(
+            localStorage.getItem("invoices")
+        ) || [];
 
-    invoices = invoices.filter(function (invoice) {
-        return invoice.id !== id;
-    });
+    invoices =
+        invoices.filter(function (invoice) {
+
+            return invoice.id !== id;
+
+        });
 
     localStorage.setItem(
         "invoices",
@@ -295,54 +608,86 @@ function deleteInvoice(id) {
     );
 
     displaySavedInvoices();
+
+    updateDashboard();
+
+    displayHistory();
 }
 
-printInvoiceButton.addEventListener("click", function () {
-    const name = customerName.value.trim();
-    const phone = customerPhone.value.trim();
-    const payment = paymentMethod.value;
 
-    if (name === "") {
-        alert("Please enter the customer name.");
-        return;
+printInvoiceButton.addEventListener(
+    "click",
+    function () {
+
+        const name =
+            customerName.value.trim();
+
+        const phone =
+            customerPhone.value.trim();
+
+        const payment =
+            paymentMethod.value;
+
+        if (name === "") {
+
+            alert("Please enter the name.");
+
+            return;
+        }
+
+        if (phone === "") {
+
+            alert("Please enter the phone number.");
+
+            return;
+        }
+
+        if (items.length === 0) {
+
+            alert("Please add at least one item.");
+
+            return;
+        }
+
+        if (payment === "") {
+
+            alert("Please select a payment method.");
+
+            return;
+        }
+
+        printInvoice(
+            name,
+            phone,
+            items,
+            "New",
+            new Date().toLocaleString(),
+            Number(discountInput.value) || 0,
+            payment
+        );
+
     }
+);
 
-    if (phone === "") {
-        alert("Please enter the phone number.");
-        return;
-    }
-
-    if (items.length === 0) {
-        alert("Please add at least one item.");
-        return;
-    }
-
-    if (payment === "") {
-        alert("Please select a payment method.");
-        return;
-    }
-
-    printInvoice(
-        name,
-        phone,
-        items,
-        "New",
-        new Date().toLocaleString(),
-        Number(discountInput.value) || 0,
-        payment
-    );
-});
 
 function printSavedInvoice(id) {
-    const invoices =
-        JSON.parse(localStorage.getItem("invoices")) || [];
 
-    const invoice = invoices.find(function (invoice) {
-        return invoice.id === id;
-    });
+    const invoices =
+        JSON.parse(
+            localStorage.getItem("invoices")
+        ) || [];
+
+    const invoice =
+        invoices.find(function (invoice) {
+
+            return invoice.id === id;
+
+        });
 
     if (!invoice) {
+
         alert("Invoice not found.");
+
         return;
     }
 
@@ -352,10 +697,11 @@ function printSavedInvoice(id) {
         invoice.items,
         invoice.id,
         invoice.date,
-        invoice.discount,
+        Number(invoice.discount) || 0,
         invoice.paymentMethod
     );
 }
+
 
 function printInvoice(
     name,
@@ -366,97 +712,131 @@ function printInvoice(
     discount,
     payment
 ) {
+
     let rows = "";
+
     let subtotal = 0;
 
     invoiceItemsList.forEach(function (item) {
+
         subtotal += item.total;
 
         rows +=
+
             "<tr>" +
-            "<td>" + item.category + "</td>" +
-            "<td>" + item.name + "</td>" +
-            "<td>" + item.size + "</td>" +
-            "<td>" + item.type + "</td>" +
-            "<td>" + item.qty + "</td>" +
-            "<td>Ksh " + item.price.toFixed(2) + "</td>" +
-            "<td>Ksh " + item.total.toFixed(2) + "</td>" +
+
+            "<td>" +
+            item.category +
+            "</td>" +
+
+            "<td>" +
+            item.name +
+            "</td>" +
+
+            "<td>" +
+            item.size +
+            "</td>" +
+
+            "<td>" +
+            item.type +
+            "</td>" +
+
+            "<td>" +
+            item.qty +
+            "</td>" +
+
+            "<td>Ksh " +
+            item.price.toFixed(2) +
+            "</td>" +
+
+            "<td>Ksh " +
+            item.total.toFixed(2) +
+            "</td>" +
+
             "</tr>";
+
     });
 
-    const total = Math.max(0, subtotal - discount);
+    const total =
+        Math.max(0, subtotal - discount);
 
-    const printWindow = window.open("", "_blank");
+    const printWindow =
+        window.open("", "_blank");
 
     if (!printWindow) {
+
         alert(
             "Please allow pop-ups to print the invoice."
         );
+
         return;
     }
 
     printWindow.document.write(
+
         "<html>" +
+
         "<head>" +
+
         "<title>GasFlow Invoice</title>" +
 
         "<style>" +
 
-        "body {" +
-        "font-family: Arial, sans-serif;" +
-        "padding: 40px;" +
-        "color: #1e293b;" +
+        "body{" +
+        "font-family:Arial,sans-serif;" +
+        "padding:40px;" +
+        "color:#1e293b;" +
         "}" +
 
-        ".header {" +
-        "text-align: center;" +
-        "margin-bottom: 30px;" +
+        ".header{" +
+        "text-align:center;" +
+        "margin-bottom:30px;" +
         "}" +
 
-        ".header h1 {" +
-        "color: #172554;" +
+        ".header h1{" +
+        "color:#172554;" +
         "}" +
 
-        ".details {" +
-        "margin-bottom: 25px;" +
-        "line-height: 1.8;" +
+        ".details{" +
+        "margin-bottom:25px;" +
+        "line-height:1.8;" +
         "}" +
 
-        "table {" +
-        "width: 100%;" +
-        "border-collapse: collapse;" +
-        "margin-top: 20px;" +
+        "table{" +
+        "width:100%;" +
+        "border-collapse:collapse;" +
+        "margin-top:20px;" +
         "}" +
 
-        "th, td {" +
-        "border: 1px solid #ddd;" +
-        "padding: 9px;" +
-        "text-align: center;" +
+        "th,td{" +
+        "border:1px solid #ddd;" +
+        "padding:9px;" +
+        "text-align:center;" +
         "}" +
 
-        "th {" +
-        "background: #172554;" +
-        "color: white;" +
+        "th{" +
+        "background:#172554;" +
+        "color:white;" +
         "}" +
 
-        ".calculation {" +
-        "margin-top: 25px;" +
-        "margin-left: auto;" +
-        "width: 300px;" +
-        "line-height: 2;" +
+        ".calculation{" +
+        "margin-top:25px;" +
+        "margin-left:auto;" +
+        "width:300px;" +
+        "line-height:2;" +
         "}" +
 
-        ".total {" +
-        "font-size: 22px;" +
-        "font-weight: bold;" +
-        "border-top: 2px solid #172554;" +
-        "padding-top: 10px;" +
+        ".total{" +
+        "font-size:22px;" +
+        "font-weight:bold;" +
+        "border-top:2px solid #172554;" +
+        "padding-top:10px;" +
         "}" +
 
-        ".footer {" +
-        "text-align: center;" +
-        "margin-top: 50px;" +
-        "color: #64748b;" +
+        ".footer{" +
+        "text-align:center;" +
+        "margin-top:50px;" +
+        "color:#64748b;" +
         "}" +
 
         "</style>" +
@@ -466,8 +846,11 @@ function printInvoice(
         "<body>" +
 
         "<div class='header'>" +
+
         "<h1>🔥 GASFLOW MANAGER</h1>" +
-        "<p>Gas Cylinders • Refilling • Accessories</p>" +
+
+        "<p>Gas Cylinders • Refilling • Sales • Purchases</p>" +
+
         "</div>" +
 
         "<div class='details'>" +
@@ -480,7 +863,7 @@ function printInvoice(
         date +
         "</p>" +
 
-        "<p><strong>Customer:</strong> " +
+        "<p><strong>Customer / Supplier:</strong> " +
         name +
         "</p>" +
 
@@ -499,6 +882,7 @@ function printInvoice(
         "<thead>" +
 
         "<tr>" +
+
         "<th>Category</th>" +
         "<th>Item</th>" +
         "<th>Size</th>" +
@@ -506,6 +890,7 @@ function printInvoice(
         "<th>Qty</th>" +
         "<th>Price</th>" +
         "<th>Total</th>" +
+
         "</tr>" +
 
         "</thead>" +
@@ -526,15 +911,19 @@ function printInvoice(
         discount.toFixed(2) +
         "</p>" +
 
-        "<p class='total'>Total: Ksh " +
+        "<p class='total'>" +
+        "Total: Ksh " +
         total.toFixed(2) +
         "</p>" +
 
         "</div>" +
 
         "<div class='footer'>" +
+
         "<p>Thank you for your business!</p>" +
+
         "<p>GasFlow Manager</p>" +
+
         "</div>" +
 
         "</body>" +
@@ -547,22 +936,33 @@ function printInvoice(
     printWindow.focus();
 
     setTimeout(function () {
+
         printWindow.print();
+
     }, 500);
 }
 
+
 function clearInvoice() {
+
     customerName.value = "";
+
     customerPhone.value = "";
 
     itemCategory.value = "";
+
     itemName.value = "";
+
     cylinderSize.value = "";
+
     transactionType.value = "";
+
     itemQty.value = "";
+
     itemPrice.value = "";
 
     discountInput.value = "0";
+
     paymentMethod.value = "";
 
     items = [];
@@ -570,4 +970,9 @@ function clearInvoice() {
     displayItems();
 }
 
+
 displaySavedInvoices();
+
+updateDashboard();
+
+displayHistory();
