@@ -1,95 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Invoice Manager</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Simple Invoice Manager</title>
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header>
-<h1>🧾 Simple Invoice Manager</h1>
-<p>Create, save and print invoices</p>
-</header>
+    <header>
 
-<main>
+        <div>
+            <h1>🧾 PI's Invoice Manager</h1>
+            <p>Create, save and print professional invoices</p>
+        </div>
 
-<div class="card">
+    </header>
 
-<h2>Customer Details</h2>
 
-<div class="form-group">
-<label>Customer Name</label>
-<input type="text" id="customerName" placeholder="Enter Customer Name">
-</div>
+    <main>
 
-<div class="form-group">
-<label>Phone Number</label>
-<input type="text" id="customerPhone" placeholder="Enter Customer Number">
-</div>
+        <section class="card">
 
-<hr>
+            <div class="section-heading">
+                <div>
+                    <h2>Customer Details</h2>
+                    <p>Enter the customer's information below.</p>
+                </div>
+            </div>
 
-<h2>Invoice Items</h2>
 
-<div class="item-inputs">
+            <div class="customer-grid">
 
-<input type="text" id="itemName" placeholder="Item Name">
+                <div class="form-group">
 
-<input type="number" id="itemQty" placeholder="Qty" min="1">
+                    <label for="customerName">
+                        Customer Name
+                    </label>
 
-<input type="number" id="itemPrice" placeholder="Price" min="1">
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Enter customer name"
+                    >
 
-<button id="addItem">Add Item</button>
+                </div>
 
-</div>
 
-<table>
+                <div class="form-group">
 
-<thead>
+                    <label for="customerPhone">
+                        Phone Number
+                    </label>
 
-<tr>
-<th>Item</th>
-<th>Qty</th>
-<th>Price</th>
-<th>Total</th>
-<th>Action</th>
-</tr>
+                    <input
+                        type="text"
+                        id="customerPhone"
+                        placeholder="Enter phone number"
+                    >
 
-</thead>
+                </div>
 
-<tbody id="invoiceItems"></tbody>
+            </div>
 
-</table>
 
-<div class="summary">
+            <hr>
 
-<h3>Total: Ksh <span id="grandTotal">0</span></h3>
 
-</div>
+            <div class="section-heading">
 
-<div class="buttons">
+                <div>
+                    <h2>Invoice Items</h2>
+                    <p>Add the products or services being invoiced.</p>
+                </div>
 
-<button id="saveInvoice">Save Invoice</button>
-<button id="printInvoice">Print Invoice</button>
+            </div>
 
-</div>
 
-</div>
+            <div class="item-inputs">
 
-<div class="card">
+                <input
+                    type="text"
+                    id="itemName"
+                    placeholder="Item or service"
+                >
 
-<h2>Saved Invoices</h2>
+                <input
+                    type="number"
+                    id="itemQty"
+                    placeholder="Qty"
+                    min="1"
+                >
 
-<div id="savedInvoices"></div>
+                <input
+                    type="number"
+                    id="itemPrice"
+                    placeholder="Price"
+                    min="1"
+                >
 
-</div>
+                <button id="addItem" type="button">
+                    + Add Item
+                </button>
 
-</main>
+            </div>
 
-<script src="script.js"></script>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="invoiceItems">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="summary">
+
+                <div>
+
+                    <span>Invoice Total</span>
+
+                    <h3>
+                        Ksh <span id="grandTotal">0.00</span>
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button id="saveInvoice" type="button">
+                    💾 Save Invoice
+                </button>
+
+                <button id="printInvoice" type="button">
+                    🖨️ Print Invoice
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <section class="card">
+
+            <div class="section-heading saved-heading">
+
+                <div>
+                    <h2>Saved Invoices</h2>
+                    <p>View and manage your previously saved invoices.</p>
+                </div>
+
+            </div>
+
+
+            <div id="savedInvoices">
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            Simple Invoice Manager
+        </p>
+
+        <span>
+            Create • Save • Print
+        </span>
+
+    </footer>
+
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
