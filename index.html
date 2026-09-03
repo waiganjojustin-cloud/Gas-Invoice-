@@ -4,23 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Simple Invoice Manager</title>
-
+    <title>GasFlow Manager</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
     <header>
-
         <div>
-            <h1>🧾 PI's Invoice Manager</h1>
-            <p>Create, save and print professional invoices</p>
+            <h1>🔥 GasFlow Manager</h1>
+            <p>Gas Cylinders • Refilling • Regulators • Burners • Accessories</p>
         </div>
-
     </header>
-
 
     <main>
 
@@ -29,65 +24,76 @@
             <div class="section-heading">
                 <div>
                     <h2>Customer Details</h2>
-                    <p>Enter the customer's information below.</p>
+                    <p>Enter the customer's information.</p>
                 </div>
             </div>
-
 
             <div class="customer-grid">
 
                 <div class="form-group">
-
-                    <label for="customerName">
-                        Customer Name
-                    </label>
-
+                    <label for="customerName">Customer Name</label>
                     <input
                         type="text"
                         id="customerName"
                         placeholder="Enter customer name"
                     >
-
                 </div>
 
-
                 <div class="form-group">
-
-                    <label for="customerPhone">
-                        Phone Number
-                    </label>
-
+                    <label for="customerPhone">Phone Number</label>
                     <input
                         type="text"
                         id="customerPhone"
                         placeholder="Enter phone number"
                     >
-
                 </div>
 
             </div>
-
 
             <hr>
 
-
             <div class="section-heading">
-
                 <div>
                     <h2>Invoice Items</h2>
-                    <p>Add the products or services being invoiced.</p>
+                    <p>Add gas products or services to the invoice.</p>
                 </div>
-
             </div>
 
-
             <div class="item-inputs">
+
+                <select id="itemCategory">
+                    <option value="">Select Category</option>
+                    <option value="Gas Cylinder">Gas Cylinder</option>
+                    <option value="Gas Refill">Gas Refill</option>
+                    <option value="Regulator">Regulator</option>
+                    <option value="Burner">Burner</option>
+                    <option value="Gas Pipe">Gas Pipe</option>
+                    <option value="Spare Part">Spare Part</option>
+                    <option value="Other">Other</option>
+                </select>
 
                 <input
                     type="text"
                     id="itemName"
-                    placeholder="Item or service"
+                    placeholder="Product or service"
                 >
+
+                <select id="cylinderSize">
+                    <option value="">Cylinder Size</option>
+                    <option value="3kg">3kg</option>
+                    <option value="6kg">6kg</option>
+                    <option value="13kg">13kg</option>
+                    <option value="22.5kg">22.5kg</option>
+                    <option value="50kg">50kg</option>
+                    <option value="N/A">N/A</option>
+                </select>
+
+                <select id="transactionType">
+                    <option value="">Transaction Type</option>
+                    <option value="Sale">Sale</option>
+                    <option value="Refill">Refill</option>
+                    <option value="Exchange">Cylinder Exchange</option>
+                </select>
 
                 <input
                     type="number"
@@ -109,46 +115,68 @@
 
             </div>
 
-
             <div class="table-container">
 
                 <table>
 
                     <thead>
-
                         <tr>
+                            <th>Category</th>
                             <th>Item</th>
+                            <th>Size</th>
+                            <th>Type</th>
                             <th>Qty</th>
                             <th>Price</th>
                             <th>Total</th>
                             <th>Action</th>
                         </tr>
-
                     </thead>
 
-                    <tbody id="invoiceItems">
-
-                    </tbody>
+                    <tbody id="invoiceItems"></tbody>
 
                 </table>
 
             </div>
 
+            <div class="invoice-calculation">
 
-            <div class="summary">
+                <div class="calculation-row">
+                    <span>Subtotal</span>
+                    <strong>Ksh <span id="subtotal">0.00</span></strong>
+                </div>
 
-                <div>
+                <div class="discount-row">
+                    <label for="discount">Discount</label>
+                    <input
+                        type="number"
+                        id="discount"
+                        value="0"
+                        min="0"
+                        placeholder="0"
+                    >
+                </div>
 
-                    <span>Invoice Total</span>
-
-                    <h3>
-                        Ksh <span id="grandTotal">0.00</span>
-                    </h3>
-
+                <div class="calculation-row grand-total">
+                    <span>Total</span>
+                    <strong>Ksh <span id="grandTotal">0.00</span></strong>
                 </div>
 
             </div>
 
+            <div class="payment-section">
+
+                <label for="paymentMethod">Payment Method</label>
+
+                <select id="paymentMethod">
+                    <option value="">Select Payment Method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="M-Pesa">M-Pesa</option>
+                    <option value="Card">Card</option>
+                    <option value="Bank">Bank</option>
+                    <option value="Other">Other</option>
+                </select>
+
+            </div>
 
             <div class="buttons">
 
@@ -165,22 +193,18 @@
         </section>
 
 
-
         <section class="card">
 
-            <div class="section-heading saved-heading">
+            <div class="section-heading">
 
                 <div>
                     <h2>Saved Invoices</h2>
-                    <p>View and manage your previously saved invoices.</p>
+                    <p>View and manage previous customer invoices.</p>
                 </div>
 
             </div>
 
-
-            <div id="savedInvoices">
-
-            </div>
+            <div id="savedInvoices"></div>
 
         </section>
 
@@ -188,15 +212,8 @@
 
 
     <footer>
-
-        <p>
-            Simple Invoice Manager
-        </p>
-
-        <span>
-            Create • Save • Print
-        </span>
-
+        <p>🔥 GasFlow Manager</p>
+        <span>Gas Sales • Refilling • Accessories</span>
     </footer>
 
 
