@@ -19,7 +19,7 @@
 
         <section class="dashboard">
 
-            <div class="stat-card refill-card">
+            <div class="stat-card">
                 <span>🔄</span>
                 <div>
                     <p>Refills</p>
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <div class="stat-card sale-card">
+            <div class="stat-card">
                 <span>🛒</span>
                 <div>
                     <p>Sales</p>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="stat-card purchase-card">
+            <div class="stat-card">
                 <span>📦</span>
                 <div>
                     <p>Purchases</p>
@@ -49,10 +49,8 @@
         <section class="card">
 
             <div class="section-heading">
-                <div>
-                    <h2>Customer / Supplier Details</h2>
-                    <p>Enter the person or business involved in the transaction.</p>
-                </div>
+                <h2>Customer / Supplier Details</h2>
+                <p>Enter the person or business involved in the transaction.</p>
             </div>
 
             <div class="customer-grid">
@@ -80,10 +78,8 @@
             <hr>
 
             <div class="section-heading">
-                <div>
-                    <h2>Transaction Details</h2>
-                    <p>Add the gas product or accessory.</p>
-                </div>
+                <h2>Transaction Details</h2>
+                <p>Add the gas product or accessory.</p>
             </div>
 
             <div class="item-inputs">
@@ -183,14 +179,18 @@
                         id="discount"
                         value="0"
                         min="0"
-                        placeholder="0"
                     >
 
                 </div>
 
                 <div class="calculation-row grand-total">
+
                     <span>Total</span>
-                    <strong>Ksh <span id="grandTotal">0.00</span></strong>
+
+                    <strong>
+                        Ksh <span id="grandTotal">0.00</span>
+                    </strong>
+
                 </div>
 
             </div>
@@ -198,7 +198,9 @@
 
             <div class="payment-section">
 
-                <label for="paymentMethod">Payment Method</label>
+                <label for="paymentMethod">
+                    Payment Method
+                </label>
 
                 <select id="paymentMethod">
 
@@ -206,25 +208,11 @@
                         Select Payment Method
                     </option>
 
-                    <option value="Cash">
-                        Cash
-                    </option>
-
-                    <option value="M-Pesa">
-                        M-Pesa
-                    </option>
-
-                    <option value="Card">
-                        Card
-                    </option>
-
-                    <option value="Bank">
-                        Bank
-                    </option>
-
-                    <option value="Other">
-                        Other
-                    </option>
+                    <option value="Cash">Cash</option>
+                    <option value="M-Pesa">M-Pesa</option>
+                    <option value="Card">Card</option>
+                    <option value="Bank">Bank</option>
+                    <option value="Other">Other</option>
 
                 </select>
 
@@ -250,10 +238,11 @@
 
             <div class="section-heading">
 
-                <div>
-                    <h2>Transaction History</h2>
-                    <p>Search transactions according to a specific date.</p>
-                </div>
+                <h2>Transaction History</h2>
+
+                <p>
+                    Search transactions according to a specific date.
+                </p>
 
             </div>
 
@@ -261,6 +250,7 @@
             <div class="date-search">
 
                 <div>
+
                     <label for="historyDate">
                         Select Date
                     </label>
@@ -269,6 +259,7 @@
                         type="date"
                         id="historyDate"
                     >
+
                 </div>
 
                 <button
@@ -288,26 +279,6 @@
             </div>
 
 
-            <div class="history-summary">
-
-                <div>
-                    <span>🔄 Refills</span>
-                    <strong id="historyRefillCount">0</strong>
-                </div>
-
-                <div>
-                    <span>🛒 Sales</span>
-                    <strong id="historySaleCount">0</strong>
-                </div>
-
-                <div>
-                    <span>📦 Purchases</span>
-                    <strong id="historyPurchaseCount">0</strong>
-                </div>
-
-            </div>
-
-
             <div id="transactionHistory"></div>
 
         </section>
@@ -317,10 +288,11 @@
 
             <div class="section-heading">
 
-                <div>
-                    <h2>Saved Invoices</h2>
-                    <p>View and manage previous invoices.</p>
-                </div>
+                <h2>Saved Invoices</h2>
+
+                <p>
+                    View and manage previous invoices.
+                </p>
 
             </div>
 
@@ -332,8 +304,13 @@
 
 
     <footer>
+
         <p>🔥 GasFlow Manager</p>
-        <span>Gas Sales • Refilling • Purchases • Accessories</span>
+
+        <span>
+            Gas Sales • Refilling • Purchases • Accessories
+        </span>
+
     </footer>
 
 

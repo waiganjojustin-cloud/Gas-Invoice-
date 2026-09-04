@@ -215,8 +215,8 @@ table {
     min-width: 850px;
     border-collapse: separate;
     border-spacing: 0;
-    overflow: hidden;
     border-radius: 15px;
+    overflow: hidden;
     background: rgba(255, 255, 255, 0.25);
 }
 
@@ -309,10 +309,7 @@ tbody button {
     grid-template-columns: 1fr auto auto;
     gap: 12px;
     align-items: end;
-}
-
-.date-search input {
-    background: rgba(255, 255, 255, 0.65);
+    margin-bottom: 20px;
 }
 
 .date-search button {
@@ -321,33 +318,6 @@ tbody button {
 
 #showAll {
     background: linear-gradient(135deg, #475569, #334155);
-}
-
-.history-summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.history-summary div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 18px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.55);
-}
-
-.history-summary span {
-    color: #475569;
-    font-weight: bold;
-}
-
-.history-summary strong {
-    color: #172554;
-    font-size: 1.2rem;
 }
 
 .history-card {
@@ -471,6 +441,10 @@ footer span {
         padding: 15px;
     }
 
+    header {
+        padding: 25px 15px;
+    }
+
     header h1 {
         font-size: 1.7rem;
     }
@@ -514,10 +488,6 @@ footer span {
 
     .date-search button {
         width: 100%;
-    }
-
-    .history-summary {
-        grid-template-columns: 1fr;
     }
 }
 

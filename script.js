@@ -33,15 +33,6 @@ const showAllButton = document.getElementById("showAll");
 const transactionHistory =
     document.getElementById("transactionHistory");
 
-const historyRefillCount =
-    document.getElementById("historyRefillCount");
-
-const historySaleCount =
-    document.getElementById("historySaleCount");
-
-const historyPurchaseCount =
-    document.getElementById("historyPurchaseCount");
-
 let items = [];
 
 
@@ -134,7 +125,8 @@ function displayItems() {
         invoiceItems.appendChild(row);
     });
 
-    const discount = Number(discountInput.value) || 0;
+    const discount =
+        Number(discountInput.value) || 0;
 
     const total =
         Math.max(0, subtotal - discount);
@@ -158,14 +150,20 @@ function removeItem(index) {
 discountInput.addEventListener("input", function () {
 
     displayItems();
+
 });
 
 
 saveInvoiceButton.addEventListener("click", function () {
 
-    const name = customerName.value.trim();
-    const phone = customerPhone.value.trim();
-    const payment = paymentMethod.value;
+    const name =
+        customerName.value.trim();
+
+    const phone =
+        customerPhone.value.trim();
+
+    const payment =
+        paymentMethod.value;
 
     if (name === "") {
         alert("Please enter the name.");
@@ -199,6 +197,8 @@ saveInvoiceButton.addEventListener("click", function () {
     const total =
         Math.max(0, subtotal - discount);
 
+    const now = new Date();
+
     const invoice = {
 
         id: Date.now(),
@@ -217,9 +217,9 @@ saveInvoiceButton.addEventListener("click", function () {
 
         paymentMethod: payment,
 
-        date: new Date().toLocaleString(),
+        date: now.toLocaleString(),
 
-        dateKey: getDateKey(new Date())
+        dateKey: getDateKey(now)
 
     };
 
@@ -244,18 +244,24 @@ saveInvoiceButton.addEventListener("click", function () {
     displayHistory();
 
     clearInvoice();
+
 });
 
 
 function getDateKey(date) {
 
-    const year = date.getFullYear();
+    const year =
+        date.getFullYear();
 
     const month =
-        String(date.getMonth() + 1).padStart(2, "0");
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
 
     const day =
-        String(date.getDate()).padStart(2, "0");
+        String(
+            date.getDate()
+        ).padStart(2, "0");
 
     return year + "-" + month + "-" + day;
 }
@@ -276,16 +282,19 @@ function updateDashboard() {
 
         invoice.items.forEach(function (item) {
 
+            const quantity =
+                Number(item.qty) || 0;
+
             if (item.type === "Refill") {
-                refills += Number(item.qty) || 0;
+                refills += quantity;
             }
 
             if (item.type === "Sale") {
-                sales += Number(item.qty) || 0;
+                sales += quantity;
             }
 
             if (item.type === "Purchase") {
-                purchases += Number(item.qty) || 0;
+                purchases += quantity;
             }
 
         });
@@ -312,7 +321,11 @@ function displayHistory(selectedDate = "") {
         filteredInvoices =
             invoices.filter(function (invoice) {
 
-                return invoice.dateKey === selectedDate;
+                if (invoice.dateKey) {
+                    return invoice.dateKey === selectedDate;
+                }
+
+                return false;
 
             });
 
@@ -320,38 +333,10 @@ function displayHistory(selectedDate = "") {
 
     transactionHistory.innerHTML = "";
 
-    let refills = 0;
-    let sales = 0;
-    let purchases = 0;
-
-    filteredInvoices.forEach(function (invoice) {
-
-        invoice.items.forEach(function (item) {
-
-            if (item.type === "Refill") {
-                refills += Number(item.qty) || 0;
-            }
-
-            if (item.type === "Sale") {
-                sales += Number(item.qty) || 0;
-            }
-
-            if (item.type === "Purchase") {
-                purchases += Number(item.qty) || 0;
-            }
-
-        });
-
-    });
-
-    historyRefillCount.textContent = refills;
-    historySaleCount.textContent = sales;
-    historyPurchaseCount.textContent = purchases;
-
     if (filteredInvoices.length === 0) {
 
         transactionHistory.innerHTML =
-            "<p>No transactions found for this date.</p>";
+            "<p>No transactions found.</p>";
 
         return;
     }
@@ -364,13 +349,15 @@ function displayHistory(selectedDate = "") {
             const card =
                 document.createElement("div");
 
-            card.className = "history-card";
+            card.className =
+                "history-card";
 
             let itemsHTML = "";
 
             invoice.items.forEach(function (item) {
 
                 itemsHTML +=
+
                     "<div class='history-item'>" +
 
                     "<strong>" +
@@ -392,6 +379,9 @@ function displayHistory(selectedDate = "") {
                     "</div>";
 
             });
+
+            const total =
+                Number(invoice.total) || 0;
 
             card.innerHTML =
 
@@ -420,12 +410,13 @@ function displayHistory(selectedDate = "") {
                 "</div>" +
 
                 "<p><strong>Total:</strong> Ksh " +
-                invoice.total.toFixed(2) +
+                total.toFixed(2) +
                 "</p>";
 
             transactionHistory.appendChild(card);
 
         });
+
 }
 
 
@@ -433,7 +424,8 @@ searchDateButton.addEventListener(
     "click",
     function () {
 
-        const date = historyDate.value;
+        const date =
+            historyDate.value;
 
         if (date === "") {
 
@@ -443,6 +435,7 @@ searchDateButton.addEventListener(
         }
 
         displayHistory(date);
+
     }
 );
 
@@ -484,7 +477,8 @@ function displaySavedInvoices() {
             const card =
                 document.createElement("div");
 
-            card.className = "saved-card";
+            card.className =
+                "saved-card";
 
             let itemsList = "";
 
@@ -576,6 +570,7 @@ function displaySavedInvoices() {
             savedInvoices.appendChild(card);
 
         });
+
 }
 
 
@@ -612,6 +607,7 @@ function deleteInvoice(id) {
     updateDashboard();
 
     displayHistory();
+
 }
 
 
@@ -700,6 +696,7 @@ function printSavedInvoice(id) {
         Number(invoice.discount) || 0,
         invoice.paymentMethod
     );
+
 }
 
 
@@ -940,6 +937,7 @@ function printInvoice(
         printWindow.print();
 
     }, 500);
+
 }
 
 
@@ -968,6 +966,7 @@ function clearInvoice() {
     items = [];
 
     displayItems();
+
 }
 
 
